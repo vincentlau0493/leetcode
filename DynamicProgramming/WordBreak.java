@@ -9,6 +9,8 @@ public class WordBreak {
 	 *	3. BFS
 	 */
 
+	static HashMap<Integer, Boolean> map = new HashMap<>();
+
 	public static void main(String[] args) {
 
 		Set<String> dict = new HashSet<String>();
@@ -51,6 +53,26 @@ public class WordBreak {
 		}
 		return false;
 	}
+
+	public static boolean fastBacktracking(String s, Set<String> dict, int idx) {
+
+		if (s.length() == idx) return true;
+		if (map.containsKey(idx)) return map.get(idx);
+
+		boolean res = false;
+		for (int i=idx+1; i<=s.length(); i++) {
+			String piece = s.substring(idx, i);
+			if (dict.contains(piece))
+				res = fastBacktracking(s, dict, i);
+			if (res) break;
+		}
+
+		map.put(idx, res);
+		return res;
+
+	}
+
+
 
 	public static boolean BFS(String s, Set<String> dict) {
 
